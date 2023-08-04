@@ -473,11 +473,23 @@ module.exports = (client) => class ChartSession {
 
   /**
    * When a chart update happens
-   * @param {(changes: ('$prices' | string)[]) => void} cb
+   * @param {(changes: ('$prices' | string)[]) => '$prices'} cb
    * @event
    */
   onUpdate(cb) {
     this.#callbacks.update.push(cb);
+  }
+  /**
+   * When a chart update happens
+   * @param {(changes: ('$prices' | string)[]) => '$prices'} cb
+   * @return {PricePeriod[]} List of periods values 
+s
+   */
+  onUpdate_(cb) {
+    this.#callbacks.update.push(cb);
+    return Object.values(this.#periods).sort((a, b) => b.time - a.time)
+    ;
+
   }
 
   /**
